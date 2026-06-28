@@ -37,6 +37,20 @@ import "dotenv/config";
 import app from "./app.js";
 import { env } from "./config/env.js";
 
-app.listen(env.port, () => {
-  console.log(`${env.appName} running on port ${env.port}`);
+const server = app.listen(env.port, () => {
+  console.log("=================================");
+  console.log(`🚀 ${env.appName} started`);
+  console.log(`🌍 Environment : ${env.nodeEnv}`);
+  console.log(`📦 API Version : ${env.apiVersion}`);
+  console.log(`🔗 Port        : ${env.port}`);
+  console.log("=================================");
+});
+
+process.on("SIGTERM", () => {
+  console.log("SIGTERM received. Shutting down gracefully...");
+
+  server.close(() => {
+    console.log("Server closed.");
+    process.exit(0);
+  });
 });
