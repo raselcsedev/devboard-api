@@ -25,6 +25,16 @@ router.get("/", (_req, res) => {
   res.json(successResponse("Users fetched successfully", []));
 });
 
+router.get("/profile", (_req, res) => {
+  res.json(
+    successResponse("Profile fetched successfully", {
+      id: "user-1",
+      name: "Md. Rasel",
+      role: "USER",
+    }),
+  );
+});
+
 router.get("/:id", (req, res) => {
   const { id } = req.params;
 
