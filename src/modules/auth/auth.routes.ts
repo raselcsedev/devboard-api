@@ -51,10 +51,10 @@
 
 import { Router } from "express";
 import { successResponse } from "../../utils/apiResponse.js";
-import { AppError } from "../../utils/AppError.js";
 import { env } from "../../config/env.js";
 import * as authController from "./auth.controller.js";
 import { asyncHandler } from "../../utils/asyncHandler.js";
+import { AppError } from "../../errors/AppError.js";
 
 const router = Router();
 

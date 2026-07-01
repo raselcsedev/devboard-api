@@ -84,7 +84,7 @@
 
 import { Router } from "express";
 import { successResponse } from "../../utils/apiResponse.js";
-import { AppError } from "../../utils/AppError.js";
+import { AppError } from "../../errors/AppError.js";
 
 const router = Router();
 

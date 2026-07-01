@@ -3,12 +3,14 @@ import { successResponse } from "../../utils/apiResponse.js";
 import * as authService from "./auth.service.js";
 
 export async function login(
-  _req: Request,
+  req: Request,
   res: Response,
 ): Promise<void> {
   console.log("🎮 Controller: Login request");
 
-  const result = await authService.login();
+  const { email } = req.body;
+
+  const result = await authService.login(email);
 
   res.json(
     successResponse("Login successful", result),

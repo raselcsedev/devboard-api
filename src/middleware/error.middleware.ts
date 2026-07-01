@@ -30,8 +30,8 @@
 
 import { Router } from "express";
 import type { Request, Response, NextFunction } from "express";
-import { AppError } from "../utils/AppError.js";
 import { errorResponse } from "../utils/apiResponse.js";
+import { AppError } from "../errors/AppError.js";
 
 export function errorMiddleware(
   err: Error,
