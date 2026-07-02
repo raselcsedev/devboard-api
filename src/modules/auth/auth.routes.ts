@@ -55,6 +55,8 @@ import { env } from "../../config/env.js";
 import * as authController from "./auth.controller.js";
 import { asyncHandler } from "../../utils/asyncHandler.js";
 import { AppError } from "../../errors/AppError.js";
+import { validate } from "./validate.middleware.js";
+import { loginSchema } from "./auth.validation.js";
 
 const router = Router();
 
@@ -81,6 +83,7 @@ router.post("/register", (req, res, next) => {
 // router.post("/login", authController.login);
 router.post(
   "/login",
+  validate(loginSchema),
   asyncHandler(authController.login),
 );
 
