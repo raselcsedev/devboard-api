@@ -55,7 +55,7 @@ import { env } from "../../config/env.js";
 import * as authController from "./auth.controller.js";
 import { asyncHandler } from "../../utils/asyncHandler.js";
 import { AppError } from "../../errors/AppError.js";
-import { validate } from "./validate.middleware.js";
+import { validate } from "../../middleware/validate.middleware.js";
 import { loginSchema } from "./auth.validation.js";
 
 const router = Router();

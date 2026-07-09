@@ -51,8 +51,37 @@
 
 
 
+// import { Router } from "express";
+// import { successResponse } from "../../utils/apiResponse.js";
+// import { AppError } from "../../errors/AppError.js";
+
+// const router = Router();
+
+// router.get("/", (_req, res) => {
+//   res.json(successResponse("Users fetched successfully", []));
+// });
+
+// router.get("/profile", (_req, res) => {
+//   res.json(successResponse("Profile fetched successfully", {
+//     id: "user-1", name: "Md. Rasel", role: "USER",
+//   }));
+// });
+
+// router.get("/:id", (req, res) => {
+//   res.json(successResponse("User fetched successfully", { id: req.params.id }));
+// });
+
+// router.patch("/:id", (_req, _res, next) => {
+//   next(new AppError(422, "Invalid email format"));
+// });
+
+// export default router;
+
+
 import { Router } from "express";
 import { successResponse } from "../../utils/apiResponse.js";
+import { validate } from "../../middleware/validate.middleware.js";
+import { getUserSchema } from "./user.validation.js";
 import { AppError } from "../../errors/AppError.js";
 
 const router = Router();
@@ -63,13 +92,19 @@ router.get("/", (_req, res) => {
 
 router.get("/profile", (_req, res) => {
   res.json(successResponse("Profile fetched successfully", {
-    id: "user-1", name: "Md. Rasel", role: "USER",
+    id   : "user-1",
+    name : "Md. Rasel",
+    role : "USER",
   }));
 });
 
-router.get("/:id", (req, res) => {
-  res.json(successResponse("User fetched successfully", { id: req.params.id }));
-});
+router.get(
+  "/:id",
+  validate(getUserSchema),
+  (req, res) => {
+    res.json(successResponse("User fetched successfully", { id: req.params.id }));
+  },
+);
 
 router.patch("/:id", (_req, _res, next) => {
   next(new AppError(422, "Invalid email format"));

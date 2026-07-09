@@ -82,16 +82,62 @@
 
 
 
+// import { Router } from "express";
+// import { successResponse } from "../../utils/apiResponse.js";
+// import { AppError } from "../../errors/AppError.js";
+
+// const router = Router();
+
+// router.get("/", (req, res) => {
+//   console.log("req.query →", req.query);
+//   res.json(successResponse("Boards fetched successfully", { boards: [] }));
+// });
+
+// router.post("/", (_req, res) => {
+//   res.status(201).json(successResponse("Board created successfully", { id: "mock-id" }));
+// });
+
+// router.delete("/:id", (_req, res) => {
+//   res.status(204).send();
+// });
+
+// // Simulated 404
+// router.get("/:id/error", (_req, _res, next) => {
+//   next(new AppError(404, "Board not found"));
+// });
+
+// router.get("/:id/tasks", (req, res) => {
+//   res.json(successResponse("Tasks fetched successfully", { boardId: req.params.id, tasks: [] }));
+// });
+
+// router.post("/:id/tasks", (req, res) => {
+//   res.status(201).json(successResponse("Task created successfully", { boardId: req.params.id }));
+// });
+
+// export default router;
+
+
+
 import { Router } from "express";
 import { successResponse } from "../../utils/apiResponse.js";
+import { validate } from "../../middleware/validate.middleware.js";
+import { listBoardsSchema } from "./board.validation.js";
 import { AppError } from "../../errors/AppError.js";
 
 const router = Router();
 
-router.get("/", (req, res) => {
-  console.log("req.query →", req.query);
-  res.json(successResponse("Boards fetched successfully", { boards: [] }));
-});
+router.get(
+  "/",
+  validate(listBoardsSchema),
+  (req, res) => {
+    console.log("req.query →", req.query);
+
+    res.json(successResponse("Boards fetched successfully", {
+      query  : req.query,
+      boards : [],
+    }));
+  },
+);
 
 router.post("/", (_req, res) => {
   res.status(201).json(successResponse("Board created successfully", { id: "mock-id" }));
@@ -101,17 +147,21 @@ router.delete("/:id", (_req, res) => {
   res.status(204).send();
 });
 
-// Simulated 404
 router.get("/:id/error", (_req, _res, next) => {
   next(new AppError(404, "Board not found"));
 });
 
 router.get("/:id/tasks", (req, res) => {
-  res.json(successResponse("Tasks fetched successfully", { boardId: req.params.id, tasks: [] }));
+  res.json(successResponse("Tasks fetched successfully", {
+    boardId : req.params.id,
+    tasks   : [],
+  }));
 });
 
 router.post("/:id/tasks", (req, res) => {
-  res.status(201).json(successResponse("Task created successfully", { boardId: req.params.id }));
+  res.status(201).json(successResponse("Task created successfully", {
+    boardId : req.params.id,
+  }));
 });
 
 export default router;
